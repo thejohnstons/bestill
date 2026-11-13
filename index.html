@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FCE3EE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Be Still">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Be Still</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Homemade+Apple&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+:root{
+  --cream:#FBF7EF; --paper:#FFFFFF; --pink:#F9B3D6; --pink2:#FCE3EE; --rose:#E36FA0; --green:#1F7A3A; --sage:#DCEBC6;
+  --peach:#FFF1DC; --lilac:#ECE6F6; --sky:#E4ECF6; --ink:#26301F; --muted:#6E7563; --line:#EFE9DC; --shadow:0 6px 20px rgba(60,50,20,.07);
+  --serif:'Young Serif',Georgia,serif; --script:'Homemade Apple','Brush Script MT',cursive; --sans:'Nunito Sans','Helvetica Neue',Arial,sans-serif;
+  --tabh:64px;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark; --cream:#1C1A17; --paper:#262320; --pink:#7A3B5A; --pink2:#3A2430; --rose:#F09AC0; --green:#8FD3A0; --sage:#283A2A;
+    --peach:#3A2F22; --lilac:#2E2A3A; --sky:#26303B; --ink:#F3EEE6; --muted:#B8B0A2; --line:#3A3631; --shadow:0 6px 20px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark; --cream:#1C1A17; --paper:#262320; --pink:#7A3B5A; --pink2:#3A2430; --rose:#F09AC0; --green:#8FD3A0; --sage:#283A2A;
+  --peach:#3A2F22; --lilac:#2E2A3A; --sky:#26303B; --ink:#F3EEE6; --muted:#B8B0A2; --line:#3A3631; --shadow:0 6px 20px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:linear-gradient(175deg,var(--pink2) 0%,var(--cream) 26%,var(--cream) 80%,var(--sage) 140%);background-attachment:fixed;color:var(--ink);font-family:var(--sans);line-height:1.45;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--pink2);z-index:30}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+main{max-width:760px;margin:0 auto;padding:14px 16px calc(var(--tabh) + 110px)}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 2px 10px}
+.logo{display:flex;flex-direction:column;text-decoration:none;color:var(--green)}
+.logo b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:.9}
+.logo i{font-family:var(--script);font-style:normal;font-size:11px;color:var(--ink);margin-top:5px}
+.back{font-size:13.5px;font-weight:700;color:var(--muted);text-decoration:none;padding:8px 0}
+h1.greet{font-family:var(--serif);font-weight:400;font-size:clamp(22px,6vw,28px);margin:2px 0 14px}
+h1.greet span{color:var(--muted)}
+h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:22px 0 10px}
+.sub{color:var(--muted);font-size:14px;margin:-6px 0 12px}
+section[hidden]{display:none}
+/* verse card with wavy frame */
+.verse{position:relative;background:var(--pink);border-radius:26px;padding:16px}
+.verse .frame{position:relative;padding:28px 20px;text-align:center}
+.verse svg.wave{position:absolute;inset:0;width:100%;height:100%}
+.verse .inner{position:relative}
+.verse small{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.verse blockquote{margin:10px 0 0;font-family:var(--serif);font-size:clamp(22px,6.4vw,30px);line-height:1.15;color:var(--green)}
+.verse cite{display:block;font-style:normal;margin:8px 0 14px;font-size:13.5px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:11px 18px;font-weight:700;font-size:15px;background:var(--green);color:#fff}
+:root[data-theme="dark"] .btn,.dk .btn{color:#10140F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#10140F}}
+.btn.soft{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:0;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.chip[aria-pressed="true"]{background:var(--green);color:var(--cream);box-shadow:none}
+/* cards */
+.list{display:grid;gap:10px}
+.item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;border:0;background:var(--paper);border-radius:22px;padding:10px 14px 10px 10px;box-shadow:var(--shadow)}
+.item .ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-size:26px}
+.item strong{display:block;font-family:var(--serif);font-weight:400;font-size:17.5px;line-height:1.2}
+.item span.d{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.item .len{font-size:12.5px;color:var(--muted);white-space:nowrap;text-align:right}
+.item .len b{display:block;font-size:11px;color:var(--rose)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{border:0;text-align:left;border-radius:22px;padding:14px;min-height:118px;display:flex;flex-direction:column;gap:4px}
+.tile .e{font-size:24px}
+.tile strong{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.15}
+.tile span{font-size:13px;color:var(--muted)}
+.c-pink{background:var(--pink2)}.c-sage{background:var(--sage)}.c-peach{background:var(--peach)}.c-lilac{background:var(--lilac)}.c-sky{background:var(--sky)}
+.card{background:var(--paper);border-radius:24px;padding:16px;box-shadow:var(--shadow)}
+/* stillness */
+.timer{display:grid;place-items:center;margin:8px 0 14px}
+.timer svg{width:min(62vw,240px);height:auto}
+.timer text{font-family:var(--serif)}
+label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px}
+input[type=range]{width:100%;accent-color:var(--green)}
+/* journal */
+textarea{width:100%;min-height:150px;border:0;border-radius:18px;background:var(--paper);color:var(--ink);padding:14px 16px;font:inherit;font-size:16px;line-height:1.5;resize:vertical;box-shadow:inset 0 0 0 1.5px var(--line)}
+.prompt{font-family:var(--serif);font-size:clamp(21px,5.6vw,26px);line-height:1.2;color:var(--green);margin:6px 0 12px}
+.entry{border-top:1px solid var(--line);padding:12px 0}
+.entry small{color:var(--muted);font-size:12.5px}
+.entry p{margin:4px 0 0;white-space:pre-wrap}
+.entry .q{font-family:var(--serif);font-size:15px;color:var(--green);margin:2px 0 0}
+.note{font-size:13px;color:var(--muted)}
+/* bottom tabs */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--paper);box-shadow:0 -6px 20px rgba(60,50,20,.08);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+nav.tabs .in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:14px;font-size:11.5px;font-weight:700;color:var(--muted)}
+nav.tabs button span{font-size:21px;line-height:1.1}
+nav.tabs button[aria-current="page"]{color:var(--green);background:var(--pink2)}
+/* mini player */
+.mini{position:fixed;left:10px;right:10px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 10px);z-index:39;max-width:740px;margin:0 auto;background:var(--green);color:var(--cream);border-radius:20px;padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;box-shadow:0 10px 30px rgba(31,122,58,.3)}
+.mini[hidden]{display:none}
+.mini .t{border:0;background:none;color:inherit;text-align:left;padding:0;min-width:0}
+.mini .t b{display:block;font-family:var(--serif);font-weight:400;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .t small{opacity:.85;font-size:12px}
+.mini .pp{width:44px;height:44px;border-radius:50%;border:0;background:var(--cream);color:var(--green);font-size:18px;display:grid;place-items:center}
+.mini .bar{grid-column:1/-1;height:4px;border-radius:4px;background:rgba(255,255,255,.25);overflow:hidden}
+.mini .bar i{display:block;height:100%;width:0;background:var(--cream)}
+/* full player */
+.player{position:fixed;inset:0;z-index:60;background:linear-gradient(175deg,var(--pink2),var(--cream) 55%,var(--sage));display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 12px) 20px calc(env(safe-area-inset-bottom,0px) + 20px);overflow-y:auto}
+.player[hidden]{display:none}
+.player .close{align-self:flex-start;border:0;background:var(--paper);border-radius:999px;padding:9px 16px;font-weight:700}
+.player .art{margin:18px auto 10px;width:min(62vw,250px);aspect-ratio:1;border-radius:36px;display:grid;place-items:center;font-size:72px;box-shadow:var(--shadow)}
+.player h3{font-family:var(--serif);font-weight:400;font-size:clamp(24px,7vw,32px);text-align:center;margin:10px 0 2px;line-height:1.15}
+.player .by{text-align:center;color:var(--muted);margin:0 0 16px}
+.prog{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:12.5px;color:var(--muted)}
+.ctrls{display:flex;justify-content:center;align-items:center;gap:22px;margin:16px 0 8px}
+.ctrls button{border:0;background:var(--paper);width:58px;height:58px;border-radius:50%;font-weight:800;box-shadow:var(--shadow)}
+.ctrls .big{width:78px;height:78px;background:var(--green);color:var(--cream);font-size:28px}
+.opts{max-width:520px;width:100%;margin:6px auto 0}
+.flower{position:absolute;pointer-events:none}
+.sign{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <a class="back" href="/" aria-label="Back to the family dashboard">← Dashboard</a>
+    <a class="logo" href="#today" data-go="today"><b>be still</b><i>and know</i></a>
+  </header>
+
+  <!-- TODAY -->
+  <section id="v-today" aria-labelledby="h-today">
+    <h1 class="greet" id="h-today"><span id="greet">Hello</span></h1>
+    <div class="verse">
+      <div class="frame">
+        <svg class="wave" viewBox="0 0 300 260" preserveAspectRatio="none" aria-hidden="true"><path id="wavepath" fill="var(--cream)"></path></svg>
+        <div class="inner">
+          <small>Today’s verse to sit with</small>
+          <blockquote id="vtext"></blockquote>
+          <cite id="vref"></cite>
+          <button class="btn" data-still="5" type="button">▶ Sit with this · 5 min</button>
+        </div>
+      </div>
+      <svg class="flower" style="left:6px;top:4px" width="62" height="62" viewBox="-31 -31 62 62" aria-hidden="true"><g id="fl1"></g></svg>
+      <svg class="flower" style="right:10px;bottom:8px" width="48" height="48" viewBox="-24 -24 48 48" aria-hidden="true"><g id="fl2"></g></svg>
+    </div>
+    <h2 id="sugT">For right now</h2>
+    <div class="list" id="suggest"></div>
+    <h2>Jump in</h2>
+    <div class="grid2">
+      <button class="tile c-pink" data-go="pray" type="button"><span class="e">🙏</span><strong>Meditations</strong><span>10 Christian meditations</span></button>
+      <button class="tile c-lilac" data-go="sleep" type="button"><span class="e">🌙</span><strong>Sleep stories</strong><span>12 cosy stories</span></button>
+      <button class="tile c-sage" data-go="still" type="button"><span class="e">🕯️</span><strong>Stillness</strong><span>A quiet timer</span></button>
+      <button class="tile c-peach" data-go="journal" type="button"><span class="e">📓</span><strong>Journal</strong><span id="jtile">Today’s prompt</span></button>
+    </div>
+  </section>
+
+  <!-- MEDITATIONS -->
+  <section id="v-pray" hidden aria-labelledby="h-pray">
+    <h1 class="greet" id="h-pray">Christian meditations</h1>
+    <p class="sub">Gentle guidance with Scripture. Find a comfy spot and press play.</p>
+    <div class="list" id="medlist"></div>
+  </section>
+
+  <!-- SLEEP -->
+  <section id="v-sleep" hidden aria-labelledby="h-sleep">
+    <h1 class="greet" id="h-sleep">Sleep stories</h1>
+    <p class="sub">Slow, cosy stories where nothing much happens. Add rain or waves underneath, and set a sleep timer.</p>
+    <div class="list" id="storylist"></div>
+  </section>
+
+  <!-- STILLNESS -->
+  <section id="v-still" hidden aria-labelledby="h-still">
+    <h1 class="greet" id="h-still">Stillness</h1>
+    <p class="sub">Sit quietly with God. A soft bell starts and ends your time.</p>
+    <div class="card">
+      <div class="timer" aria-live="polite">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Timer"><circle cx="100" cy="100" r="82" fill="var(--paper)" stroke="var(--sage)" stroke-width="10"/><circle id="ring" cx="100" cy="100" r="82" fill="none" stroke="var(--green)" stroke-width="10" stroke-linecap="round" transform="rotate(-90 100 100)"/><text id="tleft" x="100" y="110" text-anchor="middle" font-size="38" fill="var(--green)">10:00</text></svg>
+      </div>
+      <div class="chips" id="mins" role="group" aria-label="Length"></div>
+      <label class="lbl" id="bgl">Background</label>
+      <div class="chips" id="bgs" role="group" aria-labelledby="bgl"></div>
+      <label class="lbl" for="bgvol">Background volume</label>
+      <input type="range" id="bgvol" min="0" max="100" value="45">
+      <label class="lbl" id="pl">A word to hold (optional)</label>
+      <div class="chips" id="prompts" role="group" aria-labelledby="pl"></div>
+      <p class="prompt" id="holdword" style="text-align:center;margin-top:14px"></p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:8px">
+        <button class="btn" id="tgo" type="button">▶ Begin</button>
+        <button class="btn soft" id="tstop" type="button" hidden>Stop</button>
+      </div>
+      <p class="note" style="text-align:center;margin-top:12px">Tip: keep the screen on for the timer and bell. Recordings keep playing with the screen locked, but this timer may not.</p>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section id="v-journal" hidden aria-labelledby="h-journal">
+    <h1 class="greet" id="h-journal">Journal</h1>
+    <div class="card" style="background:var(--pink2)">
+      <small style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)">Today’s prompt</small>
+      <p class="prompt" id="jprompt"></p>
+      <div id="jsign" class="sign" hidden><button class="btn" id="signin" type="button">Sign in with Google</button><span class="note">Your journal is private to you.</span></div>
+      <div id="jform" hidden>
+        <label class="sr" for="jtext">Your journal entry</label>
+        <textarea id="jtext" placeholder="Write a few lines…"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <button class="chip" id="jnew" type="button">↻ A different prompt</button>
+          <button class="btn" id="jsave" type="button">Save</button>
+        </div>
+        <p class="note" id="jmsg" role="status"></p>
+      </div>
+    </div>
+    <h2>Past entries <span class="note">🔒 only you can see these</span></h2>
+    <div id="jlist" class="card"><p class="note">Nothing here yet.</p></div>
+  </section>
+</main>
+
+<div class="mini" id="mini" hidden>
+  <button class="t" id="miniopen" type="button"><b id="minit"></b><small id="minis"></small></button>
+  <button class="pp" id="minipp" type="button" aria-label="Pause">⏸</button>
+  <div class="bar"><i id="minibar"></i></div>
+</div>
+
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-labelledby="ptitle">
+  <button class="close" id="pclose" type="button">⌄ Close</button>
+  <div class="art" id="part"></div>
+  <h3 id="ptitle"></h3>
+  <p class="by" id="psub"></p>
+  <div class="prog"><span id="pcur">0:00</span><input type="range" id="pseek" min="0" max="1000" value="0" aria-label="Position"><span id="pdur">0:00</span></div>
+  <div class="ctrls">
+    <button type="button" id="pback" aria-label="Back 15 seconds">−15</button>
+    <button type="button" class="big" id="pplay" aria-label="Play">▶</button>
+    <button type="button" id="pfwd" aria-label="Forward 15 seconds">+15</button>
+  </div>
+  <div class="opts">
+    <label class="lbl" id="pbgl">Sound underneath</label>
+    <div class="chips" id="pbgs" role="group" aria-labelledby="pbgl"></div>
+    <label class="lbl" for="pbgvol">Sound volume</label>
+    <input type="range" id="pbgvol" min="0" max="100" value="30">
+    <label class="lbl" id="psl">Sleep timer</label>
+    <div class="chips" id="psleep" role="group" aria-labelledby="psl"></div>
+    <p class="note" id="psleepmsg" style="margin-top:8px"></p>
+  </div>
+</div>
+
+<nav class="tabs" aria-label="Sections"><div class="in">
+  <button data-go="today" type="button"><span>🌸</span>Today</button>
+  <button data-go="pray" type="button"><span>🙏</span>Pray</button>
+  <button data-go="sleep" type="button"><span>🌙</span>Sleep</button>
+  <button data-go="still" type="button"><span>🕯️</span>Stillness</button>
+  <button data-go="journal" type="button"><span>📓</span>Journal</button>
+</div></nav>
+
+<audio id="audio" preload="none"></audio>
+<script src="/firebase-config.js"></script>
+<script type="module">
+import * as F from '/family.js';
+const $ = s => document.querySelector(s);
+const esc = F.esc;
+
+/* ---------- Content ---------- */
+const DUR = {'med-anxious':219,'med-breath-prayer':240,'med-cant-sleep':231,'med-examen':186,'med-gratitude':268,'med-hard-day':227,'med-morning':163,'med-psalm-121':218,'med-psalm-23':227,'med-rest':202,'story-bookshop':804,'story-cabin':662,'story-farm':622,'story-flower-market':684,'story-grandmas-kitchen':625,'story-inn-long':1272,'story-library':729,'story-lighthouse':753,'story-night-train':559,'story-nursery-long':1639,'story-orchard':660,'story-seaside':674};
+const MEDS = [
+  {id:'med-breath-prayer', t:'Breath prayer', d:'“Be still and know” · Psalm 46:10', e:'🌬️', c:'c-pink', when:'any'},
+  {id:'med-psalm-23', t:'Slow reading: Psalm 23', d:'Read, pause, listen', e:'📖', c:'c-sage', when:'any'},
+  {id:'med-morning', t:'Morning offering', d:'Give God your day', e:'☀️', c:'c-peach', when:'morning'},
+  {id:'med-gratitude', t:'For gratitude', d:'Noticing his good gifts', e:'🌼', c:'c-peach', when:'any'},
+  {id:'med-anxious', t:'When you’re anxious', d:'Philippians 4:6–7', e:'🕊️', c:'c-sky', when:'any'},
+  {id:'med-hard-day', t:'For a hard day', d:'Psalm 34:18', e:'🤍', c:'c-lilac', when:'evening'},
+  {id:'med-psalm-121', t:'Psalm 121, slowly', d:'The Lord is your keeper', e:'⛰️', c:'c-sage', when:'any'},
+  {id:'med-rest', t:'Rest for the weary', d:'Matthew 11:28', e:'🛏️', c:'c-lilac', when:'evening'},
+  {id:'med-examen', t:'Evening Examen', d:'Look back on the day with God', e:'🌙', c:'c-lilac', when:'evening'},
+  {id:'med-cant-sleep', t:'When you can’t sleep', d:'Psalm 4:8', e:'⭐', c:'c-sky', when:'night'}
+];
+const STORIES = [
+  {id:'story-bookshop', t:'The Little Bookshop in the Rain', d:'An afternoon among old books', e:'📚', c:'c-sky', bg:'rain'},
+  {id:'story-lighthouse', t:'The Lighthouse Keeper’s Garden', d:'Flowers by the sea at sunset', e:'🌊', c:'c-sage', bg:'waves'},
+  {id:'story-night-train', t:'Night Train Through the Hills', d:'A sleeper carriage under the stars', e:'🚂', c:'c-lilac', bg:'brown'},
+  {id:'story-grandmas-kitchen', t:'Grandma’s Kitchen, Winter Evening', d:'Soup on the stove, scones in the oven', e:'🍲', c:'c-peach', bg:'fire'},
+  {id:'story-orchard', t:'The Orchard Cottage at First Snowfall', d:'Apple wood fire and falling snow', e:'❄️', c:'c-sky', bg:'fire'},
+  {id:'story-flower-market', t:'The Flower Market at Dawn', d:'Roses, sweet peas and sunrise', e:'💐', c:'c-pink', bg:'none'},
+  {id:'story-cabin', t:'A Cabin by the Lake', d:'Still water and a sky full of stars', e:'🛶', c:'c-sage', bg:'brown'},
+  {id:'story-library', t:'The Old Library After Hours', d:'Snow falling past tall windows', e:'🕯️', c:'c-lilac', bg:'rain'},
+  {id:'story-seaside', t:'The Seaside Village in Autumn', d:'Sea glass and a quiet tide', e:'🐚', c:'c-sky', bg:'waves'},
+  {id:'story-farm', t:'A Rainy Day on the Farm', d:'Rain on a tin roof', e:'🐑', c:'c-sage', bg:'rain'},
+  {id:'story-nursery-long', t:'The Garden Nursery in Spring Rain', d:'A longer story · seedlings and soft rain', e:'🌱', c:'c-pink', bg:'rain', long:true},
+  {id:'story-inn-long', t:'The Mountain Inn Through a Winter Night', d:'A longer story · snow, firelight and stars', e:'🏔️', c:'c-peach', bg:'fire', long:true}
+];
+const VERSES = [
+  ['Be still, and know that I am God.','Psalm 46:10'],
+  ['The Lord is my shepherd; I shall not want.','Psalm 23:1'],
+  ['Come unto me, all ye that labour and are heavy laden, and I will give you rest.','Matthew 11:28'],
+  ['This is the day which the Lord hath made; we will rejoice and be glad in it.','Psalm 118:24'],
+  ['My grace is sufficient for thee: for my strength is made perfect in weakness.','2 Corinthians 12:9'],
+  ['I will both lay me down in peace, and sleep: for thou, Lord, only makest me dwell in safety.','Psalm 4:8'],
+  ['His compassions fail not. They are new every morning: great is thy faithfulness.','Lamentations 3:22–23'],
+  ['Casting all your care upon him; for he careth for you.','1 Peter 5:7'],
+  ['My help cometh from the Lord, which made heaven and earth.','Psalm 121:2'],
+  ['Thou wilt keep him in perfect peace, whose mind is stayed on thee.','Isaiah 26:3'],
+  ['The Lord is nigh unto them that are of a broken heart.','Psalm 34:18'],
+  ['Peace I leave with you, my peace I give unto you.','John 14:27'],
+  ['In quietness and in confidence shall be your strength.','Isaiah 30:15'],
+  ['The Lord thy God in the midst of thee is mighty… he will rest in his love.','Zephaniah 3:17'],
+  ['Trust in the Lord with all thine heart; and lean not unto thine own understanding.','Proverbs 3:5'],
+  ['Be strong and of a good courage… for the Lord thy God is with thee.','Joshua 1:9'],
+  ['He giveth power to the faint; and to them that have no might he increaseth strength.','Isaiah 40:29'],
+  ['Rejoice in the Lord alway: and again I say, Rejoice.','Philippians 4:4'],
+  ['It is of the Lord’s mercies that we are not consumed, because his compassions fail not.','Lamentations 3:22'],
+  ['Wait on the Lord: be of good courage, and he shall strengthen thine heart.','Psalm 27:14'],
+  ['God is our refuge and strength, a very present help in trouble.','Psalm 46:1'],
+  ['He restoreth my soul.','Psalm 23:3'],
+  ['Thy word is a lamp unto my feet, and a light unto my path.','Psalm 119:105'],
+  ['Let all your things be done with charity.','1 Corinthians 16:14'],
+  ['In every thing give thanks.','1 Thessalonians 5:18'],
+  ['O taste and see that the Lord is good.','Psalm 34:8'],
+  ['They that wait upon the Lord shall renew their strength.','Isaiah 40:31'],
+  ['The joy of the Lord is your strength.','Nehemiah 8:10']
+];
+const JPROMPTS = [
+  'Where did you notice God’s kindness today?','What am I carrying that I can give to God?','What am I thankful for this week?',
+  'Who could I encourage tomorrow, and how?','What made me smile today?','Where did I feel tired or stretched today? What do I need?',
+  'What is one thing God might be teaching me right now?','Write a short prayer for your family.','What does rest look like for me this week?',
+  'What small moment do I want to remember from today?','Where have I seen God answer a prayer lately?','What am I worried about? Write it down and hand it over.',
+  'What is one way I was patient today?','Which verse has stayed with me this week, and why?','What would I like more of in our home?',
+  'What is something beautiful I noticed outside today?','How can I make space for quiet tomorrow?','Who has blessed me recently? How could I thank them?'
+];
+const STILL_WORDS = ['Be still','Peace','Abba, Father','You are here','Jesus','Thank you','Rest','Your will be done'];
+
+/* ---------- Helpers ---------- */
+const fmt = s => { s = Math.max(0, Math.round(s||0)); const m = Math.floor(s/60), r = s%60; return m + ':' + String(r).padStart(2,'0'); };
+const mins = id => Math.round((DUR[id]||0)/60) + ' min';
+const dayIndex = () => { const d = new Date(), s = new Date(d.getFullYear(),0,0); return Math.floor((d - s)/864e5); };
+const store = { get(k, d){ try{ const v = localStorage.getItem('bs-'+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('bs-'+k, JSON.stringify(v)); }catch(e){} } };
+
+/* ---------- Decorations ---------- */
+function flower(g, s, petal, centre){
+  let h=''; for(let i=0;i<5;i++) h += `<ellipse cx="0" cy="${-s*.55}" rx="${s*.33}" ry="${s*.52}" fill="${petal}" transform="rotate(${i*72})"/>`;
+  g.innerHTML = h + `<circle r="${s*.27}" fill="${centre}"/>`;
+}
+flower($('#fl1'), 22, '#F27BA8', '#B9D96B'); flower($('#fl2'), 17, '#FBC78F', '#F27BA8');
+(function wave(){ const W=300,H=260,r=10; let d=`M0 ${r}`; for(let i=0;i<W/(2*r);i++) d+=` q${r} ${-2*r} ${2*r} 0`; for(let i=0;i<H/(2*r)-1;i++) d+=` q${2*r} ${r} 0 ${2*r}`; for(let i=0;i<W/(2*r);i++) d+=` q${-r} ${2*r} ${-2*r} 0`; for(let i=0;i<H/(2*r)-1;i++) d+=` q${-2*r} ${-r} 0 ${-2*r}`; $('#wavepath').setAttribute('d', d+'Z'); })();
+
+/* ---------- Today ---------- */
+const v = VERSES[dayIndex() % VERSES.length]; $('#vtext').textContent = '“'+v[0]+'”'; $('#vref').textContent = v[1]+' (KJV)';
+function greet(name){
+  const h = new Date().getHours(); const part = h<5 ? 'Still up' : h<12 ? 'Good morning' : h<17 ? 'Good afternoon' : 'Good evening';
+  const tail = h<12 ? 'Take a moment before the day begins.' : h<17 ? 'Pause for a breath.' : 'Take it slow tonight.';
+  $('#greet').innerHTML = esc(part + (name ? ', '+name : '')) + '. <span>' + tail + '</span>';
+}
+function itemHTML(x){
+  const pos = store.get('pos-'+x.id, 0), dur = DUR[x.id]||0, part = pos > 20 && pos < dur-20;
+  return `<button class="item" type="button" data-play="${x.id}"><span class="ic ${x.c}" aria-hidden="true">${x.e}</span><span><strong>${esc(x.t)}</strong><span class="d">${esc(x.d)}</span></span><span class="len">${mins(x.id)}${part ? '<b>Resume</b>' : ''}</span></button>`;
+}
+function renderLists(){
+  $('#medlist').innerHTML = MEDS.map(itemHTML).join('');
+  $('#storylist').innerHTML = STORIES.map(itemHTML).join('');
+  const h = new Date().getHours(), period = h<11 ? 'morning' : h<19 ? 'day' : 'evening';
+  let picks;
+  if(period==='morning'){ picks = [MEDS.find(m=>m.id==='med-morning'), MEDS[dayIndex()%MEDS.length]]; $('#sugT').textContent='For this morning'; }
+  else if(period==='day'){ picks = [MEDS.find(m=>m.id==='med-breath-prayer'), MEDS.find(m=>m.id==='med-anxious')]; $('#sugT').textContent='For a pause in your day'; }
+  else { picks = [MEDS.find(m=>m.id==='med-examen'), STORIES[dayIndex()%STORIES.length]]; $('#sugT').textContent='For tonight'; }
+  const last = store.get('last', null), lastX = last && [...MEDS,...STORIES].find(x=>x.id===last);
+  if(lastX && store.get('pos-'+last,0) > 20 && store.get('pos-'+last,0) < (DUR[last]||0)-20) picks = [lastX, ...picks.filter(p=>p.id!==last)];
+  $('#suggest').innerHTML = [...new Set(picks)].slice(0,3).map(itemHTML).join('');
+}
+
+/* ---------- Navigation ---------- */
+const VIEWS = ['today','pray','sleep','still','journal'];
+function go(name, push=true){
+  if(!VIEWS.includes(name)) name='today';
+  VIEWS.forEach(n => { $('#v-'+n).hidden = n!==name; });
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.go===name ? 'page' : 'false'));
+  if(push && location.hash !== '#'+name) history.replaceState(null,'','#'+name);
+  window.scrollTo(0,0);
+}
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go); return; }
+  const p = e.target.closest('[data-play]'); if(p){ play(p.dataset.play); return; }
+  const s = e.target.closest('[data-still]'); if(s){ go('still'); setMinutes(+s.dataset.still); return; }
+});
+window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
+
+/* ---------- Background sounds (made in the browser, no files) ---------- */
+let ac = null, bgNode = null, bgGain = null, bgKind = 'none', crackleTimer = null;
+function ctx(){ if(!ac){ const C = window.AudioContext || window.webkitAudioContext; ac = new C(); } if(ac.state==='suspended') ac.resume(); return ac; }
+function noiseBuffer(kind){
+  const a = ctx(), len = a.sampleRate*4, buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+  let last=0, b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(let i=0;i<len;i++){ const w = Math.random()*2-1;
+    if(kind==='brown'){ last = (last + 0.02*w)/1.02; d[i] = last*3.2; }
+    else { b0=.99886*b0+w*.0555179; b1=.99332*b1+w*.0750759; b2=.969*b2+w*.153852; b3=.8665*b3+w*.3104856; b4=.55*b4+w*.5329522; b5=-.7616*b5-w*.016898; d[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11; b6=w*.115926; } }
+  return buf;
+}
+function stopBg(){ if(bgNode){ try{ bgNode.forEach(n=>n.stop && n.stop()); }catch(e){} } bgNode=null; if(crackleTimer){ clearInterval(crackleTimer); crackleTimer=null; } bgKind='none'; }
+function startBg(kind, vol){
+  stopBg(); if(kind==='none') return; bgKind = kind;
+  const a = ctx(); bgGain = bgGain || a.createGain(); bgGain.connect(a.destination); setBgVol(vol);
+  const src = a.createBufferSource(); src.buffer = noiseBuffer(kind==='rain' ? 'pink' : 'brown'); src.loop = true;
+  const f = a.createBiquadFilter(); const nodes=[src];
+  if(kind==='rain'){ f.type='lowpass'; f.frequency.value=2600; const hp=a.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=300; src.connect(hp); hp.connect(f); f.connect(bgGain); }
+  else if(kind==='waves'){ f.type='lowpass'; f.frequency.value=900; const g=a.createGain(); g.gain.value=.55; const lfo=a.createOscillator(), lg=a.createGain(); lfo.frequency.value=1/9; lg.gain.value=.45; lfo.connect(lg); lg.connect(g.gain); src.connect(f); f.connect(g); g.connect(bgGain); lfo.start(); nodes.push(lfo); }
+  else if(kind==='fire'){ f.type='lowpass'; f.frequency.value=500; const g=a.createGain(); g.gain.value=.7; src.connect(f); f.connect(g); g.connect(bgGain);
+    crackleTimer = setInterval(()=>{ if(Math.random()<.55){ const n=a.createBufferSource(), b=a.createBuffer(1, a.sampleRate*.03, a.sampleRate), dd=b.getChannelData(0); for(let i=0;i<dd.length;i++) dd[i]=(Math.random()*2-1)*Math.pow(1-i/dd.length,6); n.buffer=b; const cg=a.createGain(); cg.gain.value=.15+Math.random()*.5; const hp=a.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1500; n.connect(hp); hp.connect(cg); cg.connect(bgGain); n.start(); } }, 140); }
+  else { f.type='lowpass'; f.frequency.value=700; src.connect(f); f.connect(bgGain); }
+  src.start(); bgNode = nodes;
+}
+function setBgVol(v){ if(bgGain) bgGain.gain.value = Math.pow(v/100, 1.6) * .9; }
+function bell(){ const a = ctx(), t = a.currentTime, out = a.createGain(); out.gain.value=.35; out.connect(a.destination);
+  [[528,1],[1056,.4],[1584,.18],[792,.25]].forEach(([fr,amp])=>{ const o=a.createOscillator(), g=a.createGain(); o.type='sine'; o.frequency.value=fr; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(amp,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+6); o.connect(g); g.connect(out); o.start(t); o.stop(t+6.2); }); }
+const BGS = [['none','Silence'],['rain','🌧 Rain'],['waves','🌊 Waves'],['fire','🔥 Fireplace'],['brown','🌫 Soft hush']];
+function bgChips(el, cur, onPick){ el.innerHTML = BGS.map(([k,l])=>`<button class="chip" type="button" data-bg="${k}" aria-pressed="${k===cur}">${l}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('[data-bg]'); if(!b) return; el.querySelectorAll('[data-bg]').forEach(x=>x.setAttribute('aria-pressed', String(x===b))); onPick(b.dataset.bg); }; }
+
+/* ---------- Player ---------- */
+const audio = $('#audio'); let current = null, sleepAt = null, sleepTimer = null, playerBg = 'none';
+function find(id){ return [...MEDS, ...STORIES].find(x=>x.id===id); }
+function play(id){
+  const x = find(id); if(!x) return;
+  if(current && current.id===id){ openPlayer(); if(audio.paused) audio.play(); return; }
+  current = x; store.set('last', id);
+  audio.src = 'audio/'+id+'.mp3'; audio.preload='auto';
+  const pos = store.get('pos-'+id, 0); const dur = DUR[id]||0;
+  audio.currentTime = 0;
+  audio.addEventListener('loadedmetadata', function once(){ audio.removeEventListener('loadedmetadata', once); if(pos>20 && pos<dur-20) audio.currentTime = pos; }, {once:true});
+  $('#part').className = 'art '+x.c; $('#part').textContent = x.e; $('#ptitle').textContent = x.t; $('#psub').textContent = x.d;
+  $('#minit').textContent = x.t;
+  const isStory = id.startsWith('story'); playerBg = isStory ? (store.get('bg-'+id, x.bg||'none')) : 'none';
+  bgChips($('#pbgs'), playerBg, k => { playerBg = k; store.set('bg-'+id, k); if(!audio.paused) startBg(k, +$('#pbgvol').value); });
+  setSleep(isStory ? 'end' : 'off');
+  audio.play().then(()=>{ startBg(playerBg, +$('#pbgvol').value); }).catch(()=>{});
+  $('#mini').hidden = false; openPlayer();
+  if('mediaSession' in navigator){ navigator.mediaSession.metadata = new MediaMetadata({title:x.t, artist:'Be Still', album: isStory ? 'Sleep stories' : 'Meditations', artwork:[{src:'icon-512.png', sizes:'512x512', type:'image/png'}]});
+    navigator.mediaSession.setActionHandler('play', ()=>audio.play()); navigator.mediaSession.setActionHandler('pause', ()=>audio.pause());
+    navigator.mediaSession.setActionHandler('seekbackward', ()=>{ audio.currentTime = Math.max(0, audio.currentTime-15); });
+    navigator.mediaSession.setActionHandler('seekforward', ()=>{ audio.currentTime = Math.min(audio.duration||0, audio.currentTime+15); }); }
+}
+function openPlayer(){ $('#player').hidden = false; $('#pclose').focus(); }
+function closePlayer(){ $('#player').hidden = true; $('#miniopen').focus(); }
+$('#pclose').onclick = closePlayer; $('#miniopen').onclick = openPlayer;
+document.addEventListener('keydown', e => { if(e.key==='Escape' && !$('#player').hidden) closePlayer(); });
+const toggle = () => { if(audio.paused) audio.play(); else audio.pause(); };
+$('#pplay').onclick = toggle; $('#minipp').onclick = toggle;
+$('#pback').onclick = () => { audio.currentTime = Math.max(0, audio.currentTime-15); };
+$('#pfwd').onclick = () => { audio.currentTime = Math.min(audio.duration||0, audio.currentTime+15); };
+$('#pseek').oninput = e => { if(audio.duration) audio.currentTime = e.target.value/1000*audio.duration; };
+$('#pbgvol').oninput = e => setBgVol(+e.target.value);
+audio.addEventListener('play', ()=>{ $('#pplay').textContent='⏸'; $('#pplay').setAttribute('aria-label','Pause'); $('#minipp').textContent='⏸'; $('#minipp').setAttribute('aria-label','Pause'); if(playerBg!=='none' && bgKind==='none') startBg(playerBg, +$('#pbgvol').value); });
+audio.addEventListener('pause', ()=>{ $('#pplay').textContent='▶'; $('#pplay').setAttribute('aria-label','Play'); $('#minipp').textContent='▶'; $('#minipp').setAttribute('aria-label','Play'); stopBg(); if(current) store.set('pos-'+current.id, audio.currentTime); });
+let lastSave = 0;
+audio.addEventListener('timeupdate', ()=>{
+  const d = audio.duration || DUR[current&&current.id] || 1, t = audio.currentTime;
+  $('#pcur').textContent = fmt(t); $('#pdur').textContent = fmt(d); $('#pseek').value = Math.round(t/d*1000); $('#minibar').style.width = (t/d*100)+'%';
+  $('#minis').textContent = fmt(t)+' / '+fmt(d);
+  if(current && Date.now()-lastSave > 4000){ store.set('pos-'+current.id, t); lastSave = Date.now(); }
+  if(sleepAt && Date.now() >= sleepAt) fadeOut();
+});
+audio.addEventListener('ended', ()=>{ if(current) store.set('pos-'+current.id, 0); stopBg(); renderLists(); });
+function fadeOut(){ sleepAt = null; let v = 1; const t = setInterval(()=>{ v -= .05; audio.volume = Math.max(0,v); if(bgGain) bgGain.gain.value *= .9; if(v<=0){ clearInterval(t); audio.pause(); audio.volume = 1; } }, 300); }
+function setSleep(k){
+  const opts = [['off','Off'],['end','End of track'],['15','15 min'],['30','30 min'],['45','45 min']];
+  $('#psleep').innerHTML = opts.map(([v,l])=>`<button class="chip" type="button" data-sl="${v}" aria-pressed="${v===k}">${l}</button>`).join('');
+  sleepAt = /^\d+$/.test(k) ? Date.now() + (+k)*60000 : null;
+  $('#psleepmsg').textContent = k==='end' ? 'The sound underneath stops when the story ends.' : sleepAt ? 'Everything gently fades out in '+k+' minutes.' : '';
+}
+$('#psleep').onclick = e => { const b = e.target.closest('[data-sl]'); if(b) setSleep(b.dataset.sl); };
+
+/* ---------- Stillness timer ---------- */
+let tmins = store.get('tmins', 10), tbg = store.get('tbg', 'none'), tword = '', tEnd = null, tInt = null;
+const C = 2*Math.PI*82; $('#ring').setAttribute('stroke-dasharray', C.toFixed(1));
+function setMinutes(m){ tmins = m; store.set('tmins', m);
+  $('#mins').innerHTML = [3,5,10,15,20].map(n=>`<button class="chip" type="button" data-m="${n}" aria-pressed="${n===m}">${n} min</button>`).join('');
+  if(!tEnd){ $('#tleft').textContent = fmt(m*60); $('#ring').setAttribute('stroke-dashoffset', '0'); } }
+$('#mins').onclick = e => { const b = e.target.closest('[data-m]'); if(b && !tEnd) setMinutes(+b.dataset.m); };
+bgChips($('#bgs'), tbg, k => { tbg = k; store.set('tbg', k); if(tEnd) startBg(k, +$('#bgvol').value); });
+$('#bgvol').oninput = e => setBgVol(+e.target.value);
+$('#prompts').innerHTML = STILL_WORDS.map(w=>`<button class="chip" type="button" data-w="${esc(w)}" aria-pressed="false">${esc(w)}</button>`).join('');
+$('#prompts').onclick = e => { const b = e.target.closest('[data-w]'); if(!b) return; const on = b.getAttribute('aria-pressed')!=='true';
+  $('#prompts').querySelectorAll('[data-w]').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed', String(on)); tword = on ? b.dataset.w : ''; $('#holdword').textContent = tword; };
+let wakeLock = null;
+async function keepAwake(on){ try{ if(on && 'wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); else if(!on && wakeLock){ await wakeLock.release(); wakeLock=null; } }catch(e){} }
+function tick(){ const left = Math.max(0, (tEnd - Date.now())/1000); $('#tleft').textContent = fmt(left);
+  $('#ring').setAttribute('stroke-dashoffset', (C*(1-left/(tmins*60))).toFixed(1)); if(left<=0) endTimer(true); }
+$('#tgo').onclick = () => { if(!audio.paused) audio.pause(); ctx(); bell(); startBg(tbg, +$('#bgvol').value); tEnd = Date.now()+tmins*60000; tInt = setInterval(tick, 500); tick();
+  $('#tgo').hidden = true; $('#tstop').hidden = false; keepAwake(true); };
+function endTimer(done){ clearInterval(tInt); tEnd = null; if(done) bell(); setTimeout(stopBg, done ? 4000 : 0); $('#tgo').hidden = false; $('#tstop').hidden = true; keepAwake(false); setMinutes(tmins);
+  if(done) $('#holdword').textContent = 'Amen. 🕊️'; }
+$('#tstop').onclick = () => endTimer(false);
+setMinutes(tmins);
+
+/* ---------- Journal (private) ---------- */
+let user = null, entries = [], promptIdx = dayIndex() % JPROMPTS.length;
+function showPrompt(){ $('#jprompt').textContent = JPROMPTS[promptIdx]; $('#jtile').textContent = JPROMPTS[promptIdx]; }
+showPrompt();
+$('#jnew').onclick = () => { promptIdx = (promptIdx+1) % JPROMPTS.length; showPrompt(); };
+function renderEntries(){
+  const list = entries.slice().sort((a,b)=>(b.at||0)-(a.at||0));
+  $('#jlist').innerHTML = list.length ? list.map(x=>`<div class="entry"><small>${esc(new Date(x.at).toLocaleDateString('en-AU',{weekday:'short', day:'numeric', month:'short', year:'numeric'}))}</small><p class="q">${esc(x.prompt||'')}</p><p>${esc(x.text)}</p></div>`).join('') : '<p class="note">Nothing here yet.</p>';
+}
+$('#jsave').onclick = async () => {
+  const text = $('#jtext').value.trim(); if(!text){ $('#jmsg').textContent = 'Write a few words first.'; return; }
+  const item = {id:F.uid('j'), at:Date.now(), date:F.isoDate(new Date()), prompt:JPROMPTS[promptIdx], text};
+  try{ await F.put('~bestill_journal', item); $('#jtext').value=''; $('#jmsg').textContent = 'Saved. 🌸'; }
+  catch(e){ $('#jmsg').textContent = 'Couldn’t save. Check you’re signed in and online, then try again.'; }
+};
+$('#signin').onclick = () => F.signIn().catch(()=>{ $('#jmsg').textContent = 'Sign-in didn’t work. Please try again.'; });
+F.watchUser(u => {
+  user = u;
+  if(u){ F.setOwner(u.email); const first = (u.displayName||'').split(' ')[0]; greet(first);
+    $('#jsign').hidden = true; $('#jform').hidden = false;
+    F.listen('~bestill_journal', rows => { entries = rows; renderEntries(); }, () => {});
+  } else { greet(''); $('#jsign').hidden = false; $('#jform').hidden = true; }
+});
+
+greet(''); renderLists(); go(location.hash.slice(1) || 'today', false);
+</script>
+</body>
+</html>
